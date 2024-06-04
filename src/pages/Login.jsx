@@ -1,10 +1,19 @@
 import { Container, Box, Heading, VStack, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { SupabaseAuthUI, useSupabaseAuth } from "../integrations/supabase/auth.jsx";
+import { useState } from "react";
 
 const Login = () => {
-  const { session, logout } = useSupabaseAuth();
+  const [session, setSession] = useState(false);
   const navigate = useNavigate();
+
+  const login = () => {
+    setSession(true);
+    navigate("/");
+  };
+
+  const logout = () => {
+    setSession(false);
+  };
 
   if (session) {
     navigate("/");
@@ -15,7 +24,9 @@ const Login = () => {
       <Box width="100%" p={4} borderWidth={1} borderRadius="lg" boxShadow="lg">
         <VStack spacing={4}>
           <Heading as="h1" size="lg">Login</Heading>
-          <SupabaseAuthUI />
+          <Button colorScheme="teal" onClick={login}>
+            Login
+          </Button>
           {session && (
             <Button colorScheme="teal" onClick={logout}>
               Logout

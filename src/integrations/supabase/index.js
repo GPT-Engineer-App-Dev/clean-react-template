@@ -19,9 +19,6 @@ const fromSupabase = async (query) => {
 
 /* supabase integration types
 
-// EXAMPLE TYPES SECTION
-// DO NOT USE TYPESCRIPT
-
 Event // table: events
     id: number
     created_at: string
@@ -42,6 +39,21 @@ Venue // table: venues
     name: string
     location: string
     description: string
+    created_at: string
+    updated_at: string
+
+User // table: users
+    id: number
+    created_at: string
+    email: string
+    password: string
+
+Profile // table: profiles
+    id: number
+    user_id: number
+    username: string
+    bio: string
+    avatar_url: string
     created_at: string
     updated_at: string
 
@@ -151,6 +163,78 @@ export const useDeleteVenue = () => {
         mutationFn: (venueId) => fromSupabase(supabase.from('venues').delete().eq('id', venueId)),
         onSuccess: () => {
             queryClient.invalidateQueries('venues');
+        },
+    });
+};
+
+// Hooks for Users table
+export const useUsers = () => useQuery({
+    queryKey: ['users'],
+    queryFn: () => fromSupabase(supabase.from('users').select('*')),
+});
+
+export const useAddUser = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (newUser) => fromSupabase(supabase.from('users').insert([newUser])),
+        onSuccess: () => {
+            queryClient.invalidateQueries('users');
+        },
+    });
+};
+
+export const useUpdateUser = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (updatedUser) => fromSupabase(supabase.from('users').update(updatedUser).eq('id', updatedUser.id)),
+        onSuccess: () => {
+            queryClient.invalidateQueries('users');
+        },
+    });
+};
+
+export const useDeleteUser = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (userId) => fromSupabase(supabase.from('users').delete().eq('id', userId)),
+        onSuccess: () => {
+            queryClient.invalidateQueries('users');
+        },
+    });
+};
+
+// Hooks for Profiles table
+export const useProfiles = () => useQuery({
+    queryKey: ['profiles'],
+    queryFn: () => fromSupabase(supabase.from('profiles').select('*')),
+});
+
+export const useAddProfile = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (newProfile) => fromSupabase(supabase.from('profiles').insert([newProfile])),
+        onSuccess: () => {
+            queryClient.invalidateQueries('profiles');
+        },
+    });
+};
+
+export const useUpdateProfile = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (updatedProfile) => fromSupabase(supabase.from('profiles').update(updatedProfile).eq('id', updatedProfile.id)),
+        onSuccess: () => {
+            queryClient.invalidateQueries('profiles');
+        },
+    });
+};
+
+export const useDeleteProfile = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (profileId) => fromSupabase(supabase.from('profiles').delete().eq('id', profileId)),
+        onSuccess: () => {
+            queryClient.invalidateQueries('profiles');
         },
     });
 };

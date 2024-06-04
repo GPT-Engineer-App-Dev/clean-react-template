@@ -1,9 +1,13 @@
 import { Box, Flex, Link, Spacer, Text, Button } from "@chakra-ui/react";
-import { useSupabaseAuth } from "../integrations/supabase/auth.jsx";
+import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 const Navbar = () => {
-  const { session, logout } = useSupabaseAuth();
+  const [session, setSession] = useState(false);
+
+  const logout = () => {
+    setSession(false);
+  };
   return (
     <Box bg="teal.500" px={4} py={2}>
       <Flex align="center">

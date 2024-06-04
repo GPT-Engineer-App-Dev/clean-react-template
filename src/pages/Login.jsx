@@ -1,6 +1,6 @@
 import { Container, Box, Heading, VStack, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { SupabaseAuthUI, useSupabaseAuth } from "../integrations/supabase/auth.jsx";
+import { useState } from "react";
 
 const Login = () => {
   const { session, logout } = useSupabaseAuth();
